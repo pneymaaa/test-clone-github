@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css')}}">
+    <title>e-Learning</title>
+</head>
+
+<body>
+    <header id="admin">
+        <h1>Sign In Admin</h1>
+        <hr>
+    </header>
+
+    <br>
+    
+    <section id="adminData">
+        <form action="admin_portal.html", method="GET", id="fadmin">
+            <table>
+                <tr>
+                    <td>Username : </td>
+                    <td><input type="text" id="username" placeholder="Username" required></td>
+                </tr>
+                <tr>
+                    <td>Email : </td>
+                    <td><input type="email" id="email" placeholder="Email" required></td>
+                </tr>
+            </table>
+
+            <button type="submit" id="back" onclick="goBack()">Back</button>
+            <button type="submit" id="signInAdmin">Sign In</button>
+
+        </form>
+    </section>
+
+    <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+
+    <script>
+        let form = document.getElementById("fadmin");
+
+        form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        let username = document.getElementById("username").value;
+        let email = document.getElementById("email").value;
+        
+        if (username == "kamilakha" && email == "kamilakha47@gmail.com") {
+            window.location.href = "/admin-portal";
+            alert (`Welcome, ${username}!`)
+            }
+        })
+    </script>   
+</body>
+</html>

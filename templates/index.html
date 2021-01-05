@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="all" href="{{ url_for('static', filename='css/app.css')}}">
+    <title>e-Learning</title>
+
+</head>
+<body>
+
+    <header>
+        <h1><b>e-Learning</b></h1>
+    </header>
+
+    <div class ="navbar">
+        <a href ="#" id="acourse" onclick="listCourses()">Courses</a>
+        <a href ="#" id="atopcourse" onclick="topCourse()">Top Courses</a>
+        <a href ="/sign-in">Sign In</a>
+        <div class = "dropdown">
+            <button class = "dropbtn">Register</button>
+            <div class = "dropdown-content">
+                <a href="/register-student">Student</a>
+                <a href="#">Instructor</a>
+            </div>
+        </div>
+        <a href="/admin-index" id="admin">Admin</a>
+    </div>
+
+    <br>
+
+    <div class = "searching">
+            <label for="course">Search :</label>
+            <input type="search" id="course" name="course">
+            <button onclick="doSearch()">Go</button>
+    </div>
+
+    <h2 id="hC2"></h2>
+
+    <section id="sCourses"></section>
+
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+
+</body>
+</html>

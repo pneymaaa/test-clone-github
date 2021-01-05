@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css')}}">
+    <title>Student Portal</title>
+
+</head>
+
+<body>
+    <header>
+        <h1><b>e-Learning</b></h1>
+    </header>
+
+        <div class ="navbar">
+            <a href="#" onclick="statusCourse()">Courses Overview</a>
+            <a href="#" onclick="viewEnroll()">Enrollment</a>
+            <a href ="/student-index/setting" onclick="settings(this)">Settings</a>
+            <a href ="/index">Log Out</a>
+        </div>
+    
+    <br>
+
+    <!-- <label for="courses">Student ID :</label>
+    <input type="number" id="studentId" name="student"> -->
+
+    <div class = "search">
+        <label for="courses"><br>Search :</label>
+        <input type="search" id="courses" name="courses">
+        <button type="submit">Go</button>
+    </div>
+
+    <br>
+
+    <h2 id="studentP"></h2>
+   
+    <section id="courseOverview">
+
+        <!-- <div class = "row">
+            <div class = "column">
+                <div class = "content">
+                    <h3>Title Course</h3>
+                    <p>Description</p>
+                    <p>Status:</p><p></p>
+                </div>
+            </div>
+            <div class = "column">
+                <div class = "content">
+                    <h3>Title Course</h3>
+                    <p>Description</p>
+                    <p>Status:</p><p></p>
+                </div>
+            </div>
+            <div class = "column">
+                <div class = "content">
+                    <h3>Title Course</h3>
+                    <p>Description</p>
+                    <p>Status:</p><p></p>
+                </div>
+            </div>
+            <div class = "column">
+                <div class = "content">
+                    <h3>Title Course</h3>
+                    <p>Description</p>
+                    <p>Status:</p><p></p>
+                </div>
+            </div>
+        </div> -->
+    </section>
+
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+
+</body>
+
+</html>

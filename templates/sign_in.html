@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="all" href="{{ url_for('static', filename='css/app.css')}}">
+    <title>Sign In</title>
+</head>
+
+<body>
+    <header id="hsignIn">
+        <h1>Sign In</h1>
+        <hr>
+    </header>
+    
+    <div id = "type">
+        <p>Are you?</p>
+        <input type="radio" class="student" value="student" name="identification">
+        <label>Student</label>
+        <input type="radio" class="instructor" value="instructor" name="identification" checked>
+        <label>Instructor</label>
+    </div>
+
+    <br>
+    
+    <section id="data">
+        <form action="student_index.html", method="GET", id="fsignInStudent">
+            <table>
+                <tr>
+                    <td>Student ID : </td>
+                    <td><input type="number" id="studentid" placeholder="Student ID" required></td>
+                </tr>
+                <tr>
+                    <td>Username : </td>
+                    <td><input type="text" id="username" placeholder="Username" required></td>
+                </tr>
+                <tr>
+                    <td>Email : </td>
+                    <td><input type="email" id="email" placeholder="Email" required></td>
+                </tr>
+            </table>
+
+            <button type="submit" id="back" onclick="goBack()">Back</button>
+            <button type="submit" id="signInStudent">Sign In</button>
+
+        </form>
+    </section>
+
+    <div id = "cancel">
+        <a href = "/register-student"> <br> Don't have an account yet?</a>
+    </div>
+
+    <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+
+    <script>
+        function signIn() {
+        let radios = document.getElementsByName("identification");
+        for (let i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                return radios[i].value;
+                }
+            }
+        }
+
+        let form = document.getElementById("fsignInStudent");
+
+        form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        if (signIn() == "student") {
+            const url1 = "http://127.0.0.1:5000/elearning/user/register/students"
+            fetch(url1)
+            .then(response => response.json())
+            .then(json => {
+                let studentid = document.getElementById("studentid").value;
+                let username = document.getElementById("username").value;
+                let email = document.getElementById("email").value;
+                for (data of json) {
+                    if (data["username"] == username && data["email"] == email){
+                        console.log("OK");
+                        alert (`Welcome, ${username}.. Reload Your Page, Please!`);
+                        window.history.pushState({},"",`/student-index?query=${studentid}`);
+                        // window.location.href = "/student-index";
+                    }
+                    else {
+                        console.log("Something Wrong")
+                    }
+                }
+            })
+        }
+        else {
+            const url2 = "http://127.0.0.1:5000/elearning/user/register/instructors"
+            fetch(url2)
+            .then(response => response.json())
+            .then(json => {
+                let username = document.getElementById("username").value;
+                let email = document.getElementById("email").value;
+                for (data of json) {
+                    if (data["username"] == username && data["email"] == email){
+                        console.log("OK")
+                        window.location.href = "/instructor-index";
+                    }
+                    else {
+                        console.log("Something Wrong")
+                    };
+                };
+            })
+        };
+    });
+    </script>   
+</body>
+</html>

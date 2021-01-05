@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}">
+    <title>Register</title>
+</head>
+<body>
+    <header id="register">
+        <h1>Register Student</h1>
+        <hr>
+    </header>
+
+    <section id = "identification">
+        <form action="/student-index", method="POST", id="registerStudent">
+            <table>
+                <tr>
+                    <td>First Name : </td>
+                    <td><input type="text" id="fristName" placeholder="First Name" required></td>
+                </tr>
+                <tr>
+                    <td>Last Name : </td>
+                    <td><input type="text" id="lastName" placeholder="Last Name" required></td>
+                </tr>
+                <tr>
+                    <td>Username : </td>
+                    <td><input type="text" id="userName" placeholder="Username" required></td>
+                </tr>
+                <tr>
+                    <td>Email : </td>
+                    <td><input type="email" id="email" placeholder="Email" required></td>
+                </tr>
+            </table>
+        
+        <button type="submit" id="back" onclick="goBack()">Back</button>
+        <button type="submit" id="create">Create</button>
+
+        </form>
+    
+    </section>
+
+        
+        <div id = "cancel">
+            <a href = "/sign-in"> <br> Do you have already an account?</a>
+        </div>
+    
+    <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+
+    <script>
+        let form = document.getElementById("registerStudent");
+
+        form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        let firstname = document.getElementById("firstname");
+        let lastname = document.getElementById("lastname");
+        let username = document.getElementById("username");
+        let email = document.getElementById("email");
+
+        const info = {
+        firstname: firstname.value,
+        lastname: lastname.value,
+        username: username.value,
+        email: email.value
+        };
+
+        fetch ('http://127.0.0.1:5000/elearning/user/register/student', {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json",
+            "Accept" : "application/json"
+        },
+        body: JSON.stringify(info)
+        })
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch((error) => console.error('Error:', error))
+        });
+    </script>
+
+
+
+</body>
+</html>
