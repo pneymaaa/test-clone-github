@@ -1,5 +1,4 @@
 
-
 * {
     box-sizing: border-box;
 }
@@ -78,10 +77,17 @@ header {
 .column {
     float: left;
     width: 50%;
+    /* perspective: 1000px; */
 }
 .content {
     background-color: white;
     padding: 10px;
+    /* transition: transform 0.8s;
+    transform-style: preserve-3d; */
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: 100%;
 }
 .row:after {
     content: "";
@@ -102,3 +108,24 @@ header {
         width: 100%;
     }
 }
+
+/* .column:hover .content {
+    transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+    backface-visibility: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.flip-back {
+    transform: rotateY(180deg);
+    background-color: #333;
+    position: relative;
+    height: 100%;
+}
+
+.flip-front {
+    position: absolute;
+} */
