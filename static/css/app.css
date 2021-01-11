@@ -76,8 +76,16 @@ header {
 
 .column {
     float: left;
-    width: 50%;
+    width: 25%;
+    padding: 0;
+    border: none;
+    background: none;
+    /* border-color: white; */
     /* perspective: 1000px; */
+}
+
+.column:hover {
+    background: #e7e7e7;
 }
 .content {
     background-color: white;
@@ -87,7 +95,8 @@ header {
     position: relative;
     text-align: center;
     width: 100%;
-    height: 100%;
+    height: 350px;
+    overflow: hidden;
 }
 .row:after {
     content: "";
@@ -108,7 +117,19 @@ header {
         width: 100%;
     }
 }
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: rgb(59, 58, 58);
+    margin-top: 20px;
+    color: #f2f2f2;
+  }
 
+  img {
+    padding: 5px;
+    width: 250px;
+    height: 150px;
+  }
 /* .column:hover .content {
     transform: rotateY(180deg);
 }
@@ -129,3 +150,7 @@ header {
 .flip-front {
     position: absolute;
 } */
+
+table, th, td {
+    border: 1px solid black;
+  }

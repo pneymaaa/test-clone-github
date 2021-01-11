@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 @app.route("/index")
 def index():
@@ -35,6 +35,11 @@ def admin_portal():
 @app.route("/admin-index")
 def admin_index():
     return render_template("admin_index.html")
+
+# Course Page#
+@app.route("/course")
+def course():
+    return render_template("course.html")
 
 
 if __name__ == "__main__":

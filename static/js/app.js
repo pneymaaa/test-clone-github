@@ -19,23 +19,129 @@
         for (const data of json) {
             const h3 = document.createElement("h3");
             const p = document.createElement("p");
+            const img = document.createElement("img");
             
-            const column = document.createElement("div");
+            const column = document.createElement("button");
             const content = document.createElement("div");
             
+            column.id = data["course_id"]
             column.classList.add("column");
             content.classList.add("content");
-            
+           
+            img.src = data.img_src;
+            img.alt = data.title;
+            img.title = data.title;
             h3.innerHTML = data.title;
             p.innerHTML = data.description;
 
-            content.append(h3, p);
+            content.append(img, h3, p);
             column.append(content);
             row.append(column);
             listCourse.append(row);
-            window.history.pushState({urlPath:'/index'},"",'/index/list')
+
+            column.addEventListener("click", function(e){
+                e.preventDefault;
+                let courseid = this.getAttribute("id");
+                const url = new URL(`${window.origin}/course`);
+                url.searchParams.set("id",`${courseid}`);
+                window.location = url
+                // window.history.pushState({},'',url);
+            })
+            // window.history.pushState({urlPath:'/index'},"",'/index/list')
         }
     }
+
+    // Course Overview
+    function courseOverview(){
+        let cid = window.location.search;
+        let courseId = new URLSearchParams(cid); 
+        let course_id = courseId.get("id");
+
+        const url = `http://127.0.0.1:5000/elearning/course-overview?course_id=${course_id}`
+        fetch(url)
+        .then(response => response.json())
+        .then(json => {
+            const h2 = document.getElementById("hC2");
+            h2.innerHTML = " ";
+            const courseOverview = document.getElementById("sCourses");
+            courseOverview.innerHTML = "";
+            for (data of json) {
+                h2.innerHTML = data.title;
+                const table = document.createElement("table");
+                const tr1 = document.createElement("tr");
+                const tr2 = document.createElement("tr");
+                const tr3 = document.createElement("tr");
+                const tr4 = document.createElement("tr");
+                const tr5 = document.createElement("tr");
+                const tr6 = document.createElement("tr");
+                
+                const img = document.createElement("td");
+                img.setAttribute("rowspan", "6");
+                img.innerHTML = `<img src=${data["img_src"]} alt=${data["title"]} title=${data["title"]}>`;
+                const courseTitle = document.createElement("td");
+                courseTitle.innerHTML ="Title :" + data.title;
+                const courseDesc = document.createElement("td");
+                courseDesc.innerHTML = "Description :" + data.description;
+                const courseInstructor = document.createElement("td");
+                courseInstructor.innerHTML = "Instructor Name : " + data["first_name"] + " " + data["last_name"];
+                const courseCount = document.createElement("td");
+                courseCount.innerHTML = "Total Enrollment(s) : " + " " + data.count + " student(s)";
+                
+                const btn = document.createElement("button");
+                const txt = document.createTextNode("Enroll");
+                
+                btn.id = data["course_id"];
+
+                btn.append(txt)
+                tr1.append(img, courseTitle);
+                tr2.append(courseDesc);
+                tr3.append(courseInstructor);
+                tr4.append(courseCount);
+
+                const url1 = `http://127.0.0.1:5000/elearning/prerequisite?course_id=${course_id}`
+                fetch(url1)
+                .then(response => response.json())
+                .then(result => {
+                    const coursePrerequisite = document.createElement("td");
+                    coursePrerequisite.innerHTML = "Prerequisite(s): "
+                    tr5.append(coursePrerequisite);
+                    for (i= 0; i < result.length; i++) {
+                        pre = result[i]["title"];
+                        if (pre != null) {
+                            const Pre = document.createElement("div")
+                            Pre.innerHTML = pre;
+                            tr6.append(Pre);
+                        }else {
+                            const Pre = document.createElement("div")
+                            Pre.innerHTML = "-";
+                            tr6.append(Pre);
+                        }
+                    }
+                })       
+
+                table.append(tr1,tr2,tr3,tr4,tr5,tr6);
+                courseOverview.append(table, btn);
+
+                btn.addEventListener("click", function(e){
+                    let courseid = this.getAttribute("id");
+                    e.preventDefault();
+                    const url1 =`http://127.0.0.1:5000/elearning/courses/new/enroll?std_token${getCookie("std_token")}&course_id=${courseid}`
+                    fetch(url1, {method: "POST"})
+                    .then(response => response.json())
+                    .then(result =>{
+                        if (result == "Can't Add Enroll the Course Because Maximum Enroll of Five" || result == "Can't Add Enroll the Course Because Prerequisite Courses Haven't Completed yet" || result == "Course has been taken" || result == "Please, login first!"){
+                            alert(result)
+                        }else{
+                            console.log(result);
+                            alert("Thanks! The Course has been added");
+                            window.location = `${window.origin}/student-index`;
+                        }
+                    })
+                })
+            }
+        })
+    }
+
 
     // Search Course
     function doSearch() {
@@ -89,6 +195,7 @@
         for (data of json) {
             const h3 = document.createElement("h3");
             const p = document.createElement("p");
+            const img = document.createElement("p");
             
             const column = document.createElement("div");
             const content = document.createElement("div");
@@ -97,9 +204,10 @@
             content.classList.add("content");
 
             h3.innerHTML = data["title"];
-            p.innerHTML = "number of courses enrolled : " + data["number of courses enrolled"];
+            p.innerHTML = "Number of courses enrolled : " + data["number of courses enrolled"] + " student(s)";
+            img.innerHTML = `<img src=${data["img_src"]} alt=${data["title"]} title=${data["title"]}>`;
 
-            content.append(h3, p);
+            content.append(img, h3, p);
             column.append(content);
             row.append(column);
             topCourse.append(row);
@@ -128,11 +236,12 @@
             const column = document.createElement("div");
             const content = document.createElement("div");
             
+            
             column.classList.add("column");
             content.classList.add("content");
 
             h3.innerHTML = data["first_name"] + " " +  data["last_name"];
-            p.innerHTML = "number of complete course: " + data["number of complete course"];
+            p.innerHTML = "Number of complete course: " + data["number of complete course"];
 
             content.append(h3, p);
             column.append(content);
@@ -145,6 +254,16 @@
                  //------ register_student.html ------//
 
     // Enrollment
+    function getCookie(name) {
+        const value = `${document.cookie}`;
+        const parts = value.split(`${name}`);
+        if (parts.length === 2){
+        return parts.pop().split(';').shift();
+        } else if (value == "") {
+            return ""
+        }
+      }
+    
     function viewEnroll() {
         const h2 = document.getElementById("studentP");
         h2.innerHTML = "Enrollment";
@@ -186,18 +305,19 @@
                 column.append(content);
                 row.append(column);
                 viewEnrolls.append(row);
-
-                let sid = window.location.search
-                let studentId = new URLSearchParams(sid);     
+    
                 btn.addEventListener("click", function(e){
                     let courseid = this.getAttribute("value");
                     e.preventDefault();
-                    const url1 = `http://127.0.0.1:5000/elearning/courses/new/enroll?student_id=${studentId.get("query")}&course_id=${courseid}`
+                    const url1 =`http://127.0.0.1:5000/elearning/courses/new/enroll?std_token=${getCookie("std_token")}&course_id=${courseid}`
                     fetch(url1, {method: "POST"}) 
                     .then(response => response.json())
                     .then(json => {
-                        console.log(json);
-                        alert(`${json}`);
+                        if (json == "Can't Add Enroll the Course Because Maximum Enroll of Five" || json == "Can't Add Enroll the Course Because Prerequisite Courses Haven't Completed yet" || json == "Course has been taken"){
+                            alert(json)
+                        } else {
+                            console.log(json);
+                        }
                         // Showing Course Prerequisite !!
                     })
                     .catch((error) => console.error("Error:", error))
@@ -333,6 +453,18 @@
             .catch((error) => console.error('Error:', error))
         }
      }
+
+    // Log out
+    function logOut(){
+        const url = `http://127.0.0.1:5000/elearning/user/logout/student?q=${getCookie("std_token")}`
+        fetch(url, {method: "DELETE"})
+        .then(response => response.json())
+        .then(json => {
+            document.cookie="std_token=; expires=";
+            alert(json);
+            window.location = `${window.origin}/index`;
+        })
+    }
 
             //------ admin_portal.html ------//
 // Create Course
