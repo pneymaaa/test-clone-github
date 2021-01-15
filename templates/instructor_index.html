@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css')}}">
+    <title>Instructor Portal</title>
+
+</head>
+
+<body onload=listCoursesInst()>
+    <header>
+        <h1><b>e-Learning</b></h1>
+        <h2 id="welcome"></h2>
+    </header>
+
+    <div class ="navbar">
+        <a href ="/instructor-index" onclick="listCourses()">List</a>
+        <a href ="/course-setting" >Courses</a>
+        <a href ="/instructor-index/setting">Settings</a>
+        <a onclick ="logOutInst()">Log Out</a>
+    </div>
+
+
+    <div class = "search">
+        <label for="course"><br>Search :</label>
+        <input type="search" id="course" name="course">
+        <button onclick="doSearch()">Go</button>
+    </div>
+
+    <br>
+
+
+    <h2 id="hC2"></h2>
+
+    <section id="sCourses"></section>
+
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+        
+    <div class="footer">
+        <p>e-Learning | 2021</p>
+    </div>
+
+    <script>
+        function getCookies(name) {
+            const value = `${document.cookie}`;
+            const parts = value.split(`${name}=`);
+            if (parts.length === 2){
+                return parts.pop().split(';').shift();
+            } else if (value == "") {
+                window.location = `${window.origin}/index`
+                return window.location
+            }
+        }
+        if (`${window.origin}/instructor-index`){
+                let welcome = document.getElementById("welcome");
+                let instructor_id = getCookies("inst_id")
+                const url = "http://127.0.0.1:5000/elearning/user/register/instructors?inst_id=" + instructor_id
+                fetch(url)
+                .then(response=> response.json())
+                .then(result => {
+                    if (getCookies("inst_token") != "") {
+                    welcome.innerHTML = "";
+                    for (i of result) {
+                        welcome.innerHTML = "Welcome, "+ i["firstname"] + " " + i["lastname"] +"!";
+                    }
+                    } else {
+                    window.location = `${window.origin}/index`
+                    alert("Your session has running out time")
+                    }
+                })
+            }
+    </script>
+
+<script>
+    // List Course
+    function listCoursesInst() {
+    const h2 = document.getElementById("hC2");
+    h2.innerHTML = "List Course :";
+
+    const url = 'http://127.0.0.1:5000/elearning/courses'
+    fetch(url)
+    .then(response => response.json())
+    .then(json =>  {
+        const row = document.createElement("div");
+        row.classList.add("row");
+        const listCourse = document.getElementById("sCourses");
+        listCourse.innerHTML = "";
+        for (const data of json) {
+            const h3 = document.createElement("h3");
+            const p = document.createElement("p");
+            const img = document.createElement("img");
+            
+            const column = document.createElement("div");
+            const content = document.createElement("div");
+            
+            column.classList.add("column");
+            content.classList.add("content");
+           
+            img.src = data.img_src;
+            img.alt = data.title;
+            img.title = data.title;
+            h3.innerHTML = data.title;
+            p.innerHTML = data.description;
+
+            content.append(img, h3, p);
+            column.append(content);
+            row.append(column);
+            listCourse.append(row);
+        }
+    })
+}
+</script>
+
+
+
+
+</body>
+
+</html>

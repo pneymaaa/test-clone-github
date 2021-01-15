@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="all" href="{{ url_for('static', filename='css/app.css')}}">
+    <title>e-Learning</title>
+</head>
+<body onload="instructorCourses()">
+    <header>
+        <h1><b>Courses</b></h1>
+        <h2 id="welcome"></h2>
+    </header>
+
+    <div class ="navbar">
+        <a id="acourse" onclick="validate()">List</a>
+        <a href ="/course-setting">Instructor's Course</a>
+        <a href ="/course-update">Create New</a>
+    </div>
+
+    <br>
+
+    <h2 id="hC2"></h2>
+
+    <section id="sCourses"></section>
+
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+        
+    <div class="footer">
+        <p>e-Learning | 2021</p>
+    </div>
+
+    <script>
+        function getCookied(name) {
+            const value = `${document.cookie}`;
+            const parts = value.split(`${name}=`);
+            if (parts.length === 2){
+                return parts.pop().split(';').shift();
+            } else if (value == "") {
+                window.location = `${window.origin}/index`
+                return window.location
+            }
+        }
+
+        function validate() {
+            let inst_token = getCookied("inst_token");
+            if (inst_token !== ""){
+                window.location = `${window.origin}/instructor-index`;
+            }
+            else {
+                window.location = `${window.origin}/index`
+            }
+        }
+    </script>
+    
+</body>
+</html>

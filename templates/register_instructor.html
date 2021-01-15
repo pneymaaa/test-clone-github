@@ -8,12 +8,12 @@
 </head>
 <body>
     <header id="register">
-        <h1>Register Student</h1>
+        <h1>Register Instructor</h1>
         <hr>
     </header>
 
     <section id = "identification">
-        <form action="/student-index", method="POST", id="registerStudent">
+        <form action="/instructor-index", method="POST", id="registerInstructor">
             <table>
                 <tr>
                     <td>First Name : </td>
@@ -56,7 +56,7 @@
     </script>
 
     <script>
-        let form = document.getElementById("registerStudent");
+        let form = document.getElementById("registerInstructor");
 
         form.addEventListener("submit", function(e) {
         e.preventDefault();
@@ -75,7 +75,7 @@
             password
         };
 
-        fetch ('http://127.0.0.1:5000/elearning/user/register/student', {
+        fetch ('http://127.0.0.1:5000/elearning/user/register/instructor', {
         method: "POST",
         headers: {
             "Content-Type" : "application/json",

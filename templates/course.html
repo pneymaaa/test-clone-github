@@ -6,32 +6,27 @@
     <link rel="stylesheet" media="all" href="{{ url_for('static', filename='css/app.css')}}">
     <title>e-Learning</title>
 </head>
-<body onload="courseOverview()">
+<body onload="navigate(), courseOverview()">
     <header>
         <h1><b>Course Overview</b></h1>
+        <h2 id="welcome"></h2>
     </header>
-
-    <div class ="navbar">
-        <a href ="#" id="acourse" onclick="listCourses()">Courses</a>
-        <a href ="#" id="atopcourse" onclick="topCourse()">Top Courses</a>
-        <a href ="#" id="atopstudent" onclick="topStudent()">Top Courses</a>
-        <a href ="/sign-in">Sign In</a>
+<nav id="nav">
+    
+</nav>
+    <!-- <div class ="navbar"> -->
+        <!-- <a id="acourse" onclick="validate()">Courses</a> -->
+        <!-- <a href ="/sign-in">Sign In</a>
         <div class = "dropdown">
             <button class = "dropbtn">Register</button>
             <div class = "dropdown-content">
                 <a href="/register-student">Student</a>
-                <a href="#">Instructor</a>
+                <a href="/register-instructor">Instructor</a>
             </div>
-        </div>
-    </div>
+        </div> -->
+    <!-- </div> -->
 
     <br>
-
-    <div class = "searching">
-            <label for="course">Search :</label>
-            <input type="search" id="course" name="course">
-            <button onclick="doSearch()">Go</button>
-    </div>
 
     <h2 id="hC2"></h2>
 
@@ -42,5 +37,56 @@
     <div class="footer">
         <p>e-Learning | 2021</p>
     </div>
+
+    <script>
+        function getCookied(name) {
+            const value = `${document.cookie}`;
+            const parts = value.split(`${name}=`);
+            if (parts.length === 2){
+                return parts.pop().split(';').shift();
+            } else if (value == "") {
+                window.location = `${window.origin}/index`
+                return window.location
+            }
+        }
+
+        function validate() {
+            let username = getCookied("username");
+            if (username !== ""){
+                window.location = `${window.origin}/student-index`;
+            }
+            else {
+                window.location = `${window.origin}/index`
+            }
+        }
+    </script>
+    
+    <script>
+        function navigate() {
+        if (getCookied("std_token") !== "") {
+            let navbar = document.createElement("div");
+            navbar.classList.add("navbar");
+            navbar.innerHTML +=`<a id="acourse" onclick="validate()">Courses</a>`
+            let nav = document.getElementById("nav");
+            nav.append(navbar)
+        } else {
+            let navbar = document.createElement("div");
+            navbar.classList.add("navbar");
+            navbar.innerHTML +=`<a id="acourse" onclick="validate()">Courses</a>
+                                <a href ="/sign-in">Sign In</a>
+                                <div class = "dropdown">
+                                    <button class = "dropbtn">Register</button>
+                                    <div class = "dropdown-content">
+                                        <a href="/register-student">Student</a>
+                                        <a href="/register-instructor">Instructor</a>
+                                    </div>
+                                </div>`
+            let nav = document.getElementById("nav");
+            nav.append(navbar)
+        }
+    }
+    </script>
+
+
 </body>
 </html>

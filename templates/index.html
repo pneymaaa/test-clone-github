@@ -22,7 +22,7 @@
             <button class = "dropbtn">Register</button>
             <div class = "dropdown-content">
                 <a href="/register-student">Student</a>
-                <a href="#">Instructor</a>
+                <a href="/register-instructor">Instructor</a>
             </div>
         </div>
     </div>
@@ -44,6 +44,12 @@
     <div class="footer">
         <p>e-Learning | 2021</p>
     </div>
+
+    <script>
+        function goBack(){
+            window.location = `${window.origin}/index`;
+        }
+    </script>
 
 </body>
 </html>

@@ -8,68 +8,74 @@
 
 </head>
 
-<body>
+<body onload=listCourses()>
     <header>
         <h1><b>e-Learning</b></h1>
+        <h2 id="welcome"></h2>
     </header>
 
         <div class ="navbar">
-            <a href="#" onclick="statusCourse()">Courses Overview</a>
-            <a href="#" onclick="viewEnroll()">Enrollment</a>
-            <a href ="/student-index/setting" onclick="settings(this)">Settings</a>
-            <a onclick ="logOut()">Log Out</a>
+            <a href="/student-index" onclick="listCourses()">Courses</a>
+            <a href="#" onclick="statusCourse()">Enrollments</a>
+            <a href ="/student-index/setting">Settings</a>
+            <a onclick ="logOutStd()">Log Out</a>
         </div>
     
     <br>
 
-    <!-- <label for="courses">Student ID :</label>
-    <input type="number" id="studentId" name="student"> -->
 
     <div class = "search">
-        <label for="courses"><br>Search :</label>
-        <input type="search" id="courses" name="courses">
-        <button type="submit">Go</button>
+        <label for="course"><br>Search :</label>
+        <input type="search" id="course" name="course">
+        <button onclick="doSearch()">Go</button>
     </div>
 
     <br>
 
-    <h2 id="studentP"></h2>
-   
-    <section id="courseOverview">
 
-        <!-- <div class = "row">
-            <div class = "column">
-                <div class = "content">
-                    <h3>Title Course</h3>
-                    <p>Description</p>
-                    <p>Status:</p><p></p>
-                </div>
-            </div>
-            <div class = "column">
-                <div class = "content">
-                    <h3>Title Course</h3>
-                    <p>Description</p>
-                    <p>Status:</p><p></p>
-                </div>
-            </div>
-            <div class = "column">
-                <div class = "content">
-                    <h3>Title Course</h3>
-                    <p>Description</p>
-                    <p>Status:</p><p></p>
-                </div>
-            </div>
-            <div class = "column">
-                <div class = "content">
-                    <h3>Title Course</h3>
-                    <p>Description</p>
-                    <p>Status:</p><p></p>
-                </div>
-            </div>
-        </div> -->
-    </section>
+    <h2 id="hC2"></h2>
+
+    <section id="sCourses"></section>
 
     <script src="{{url_for('static', filename='js/app.js')}}"></script>
+        
+    <div class="footer">
+        <p>e-Learning | 2021</p>
+    </div>
+
+    <script>
+        function getCookies(name) {
+            const value = `${document.cookie}`;
+            const parts = value.split(`${name}=`);
+            if (parts.length === 2){
+                return parts.pop().split(';').shift();
+            } else if (value == "") {
+                window.location = `${window.origin}/index`
+                return window.location
+            }
+        }
+        if (`${window.origin}/student-index`){
+                let username = getCookies("username");
+                if (username == ""){
+                window.location = `${window.origin}/index`
+                alert("Please, Sign in first!")
+                }  else {
+                let welcome = document.getElementById("welcome");
+                let student_id = getCookies("std_id")
+                const url = "http://127.0.0.1:5000/elearning/user/register/students?std_id=" + student_id
+                fetch(url)
+                .then(response=> response.json())
+                .then(result => {
+                    if (getCookies("std_token") != "") {
+                    welcome.innerHTML = "";
+                    for (i of result) {
+                        welcome.innerHTML = "Welcome, "+ i["firstname"] + " " + i["lastname"] +"!";
+                    }
+                    }
+                })
+            }
+        }
+    </script>
 
 </body>
 

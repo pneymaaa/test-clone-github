@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css')}}">
-    <title>Student Portal</title>
+    <title>Instructor Portal</title>
 </head>
 <body>
     <header>
@@ -37,7 +37,7 @@
             </table>
         
         <button type="submit" id="back" onclick="goBack()">Back</button>
-        <button type="submit" id="save" onclick="saveStd()">Save</button>
+        <button type="submit" id="save" onclick="saveInst()">Save</button>
 
         <!-- </form> -->
     
@@ -64,7 +64,7 @@
                 return window.location
             }
         }
-        if (`${window.origin}/student-index`){
+        if (`${window.origin}/instructor-index`){
             let username = getCookies("username");
             if (username == ""){
                 window.location = `${window.origin}/index`
