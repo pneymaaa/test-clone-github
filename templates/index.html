@@ -7,16 +7,16 @@
     <title>e-Learning</title>
 
 </head>
-<body onload="listCourses()">
+<body onload="listCourses(), topCourse(), topStudent()">
 
     <header>
         <h1><b>e-Learning</b></h1>
     </header>
 
     <div class ="navbar">
-        <a href ="/index" id="acourse" onclick="listCourses()">Courses</a>
-        <a href ="#" id="atopcourse" onclick="topCourse()">Top Courses</a>
-        <a href ="#" id="atopstudent" onclick="topStudent()">Top Students</a>
+        <a href ="/index" id="acourse" onclick="listCourses()">Home</a>
+        <!-- <a href ="#" id="atopcourse" onclick="topCourse()">Top Courses</a>
+        <a href ="#" id="atopstudent" onclick="topStudent()">Top Students</a> -->
         <a href ="/sign-in">Sign In</a>
         <div class = "dropdown">
             <button class = "dropbtn">Register</button>
@@ -25,19 +25,26 @@
                 <a href="/register-instructor">Instructor</a>
             </div>
         </div>
+        <div class = "searching">
+            <!-- <label for="course">Search :</label> -->
+            <input type="search" id="course" name="course" placeholder="Search...">
+            <button onclick="doSearch()">Go</button>
+        </div>
     </div>
 
     <br>
 
-    <div class = "searching">
-            <label for="course">Search :</label>
-            <input type="search" id="course" name="course">
-            <button onclick="doSearch()">Go</button>
-    </div>
-
     <h2 id="hC2"></h2>
 
     <section id="sCourses"></section>
+
+    <h2 id="topCourse"></h2>
+
+    <section id="topCourses"></section>
+
+    <h2 id="topStudent"></h2>
+
+    <section id="topStudents"></section>
 
     <script src="{{url_for('static', filename='js/app.js')}}"></script>
         

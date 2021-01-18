@@ -4,38 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css')}}">
-    <title>Student Portal</title>
+    <title>e-Learning</title>
 
 </head>
 
 <body onload=listCourses()>
     <header>
         <h1><b>e-Learning</b></h1>
-        <h2 id="welcome"></h2>
     </header>
 
         <div class ="navbar">
-            <a href="/student-index" onclick="listCourses()">Courses</a>
+            <a href="/student-index" onclick="listCourses()">Home</a>
             <a href="#" onclick="statusCourse()">Enrollments</a>
             <a href ="/student-index/setting">Settings</a>
             <a onclick ="logOutStd()">Log Out</a>
+            <div class = "searching">
+                <input type="search" id="course" name="course" placeholder="Search...">
+                <button onclick="doSearch()">Go</button>
+            </div>
         </div>
-    
-    <br>
 
-
-    <div class = "search">
-        <label for="course"><br>Search :</label>
-        <input type="search" id="course" name="course">
-        <button onclick="doSearch()">Go</button>
-    </div>
-
-    <br>
-
+    <h4 id="welcome"></h4>
 
     <h2 id="hC2"></h2>
 
     <section id="sCourses"></section>
+    <section id="sCoursed"></section>
 
     <script src="{{url_for('static', filename='js/app.js')}}"></script>
         
@@ -44,37 +38,31 @@
     </div>
 
     <script>
-        function getCookies(name) {
+        function getCooker(name) {
             const value = `${document.cookie}`;
             const parts = value.split(`${name}=`);
             if (parts.length === 2){
                 return parts.pop().split(';').shift();
-            } else if (value == "") {
-                window.location = `${window.origin}/index`
-                return window.location
+            } else {
+                alert("Your session has running out time");
+                return window.location = `${window.origin}/index`;
             }
         }
         if (`${window.origin}/student-index`){
-                let username = getCookies("username");
-                if (username == ""){
-                window.location = `${window.origin}/index`
-                alert("Please, Sign in first!")
-                }  else {
                 let welcome = document.getElementById("welcome");
-                let student_id = getCookies("std_id")
+                let student_id = getCooker("std_id")
                 const url = "http://127.0.0.1:5000/elearning/user/register/students?std_id=" + student_id
                 fetch(url)
                 .then(response=> response.json())
                 .then(result => {
-                    if (getCookies("std_token") != "") {
+                    if (getCooker("std_token") != "") {
                     welcome.innerHTML = "";
                     for (i of result) {
-                        welcome.innerHTML = "Welcome, "+ i["firstname"] + " " + i["lastname"] +"!";
-                    }
+                        welcome.innerHTML ="Welcome, "+ `<u>${i["firstname"]}<u/>` + " " + `<u>${i["lastname"]}</u>` +"!";
+                        }
                     }
                 })
             }
-        }
     </script>
 
 </body>

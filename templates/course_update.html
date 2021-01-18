@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}">
     <title>e-Learning</title>
 </head>
-<body onload="editing()">
+<body onload="editing(), courselist()">
     <header>
         <h1><b>e-Learning</b></h1>
     </header>
 
     <div class ="navbar">
         <a href ="/instructor-index" onclick="listCourses()">List</a>
-        <a href ="/course-setting" >Courses</a>
+        <a href ="/course-setting">Instructor's Courses</a>
         <a href ="/instructor-index/setting">Settings</a>
         <a onclick ="logOutInst()">Log Out</a>
     </div>
@@ -24,27 +24,28 @@
         <!-- <form action="/admin-portal", id="editingCourse"> -->
             <table>
                 <tr>
-                    <td>Title : </td>
-                    <td><input type="title" id="title" placeholder="Title" required></td>
+                    <td>Title</td>
+                    <td><input type="title" id="title" placeholder="Enter course title" required></td>
                 </tr>
                 <tr>
-                    <td>Description : </td>
-                    <td><textarea id="description" rows="4" cols="50" required></textarea></td>
+                    <td>Description</td>
+                    <td><textarea id="description" rows="10" cols="100" placeholder = "Enter course description" required></textarea></td>
                 </tr>
                 <tr>
-                    <td>Prerequisites : </td>
-                    <td><textarea id="description" rows="4" cols="50" required></textarea></td>
+                    <td>Prerequisites</td>
+                    <td id="prerequisite"><div id="listcourse"></div></td>
                 </tr>
             </table>
         
     <div id=btn-ctrl>
-        <!-- <button type="submit" id="create" onclick="create()">Create</button>
+        <!-- <button type="submit" id="create">Create</button>
         <button type="submit" id="edit" onclick="edit()">Edit</button>
         <button type="submit" id="back" onclick="goBack()">Back</button> -->
     </div>
         <!-- </form> -->
 
     </section>
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
 
      <script>
             function goBack(){
@@ -53,13 +54,26 @@
     </script>
 
     <script>
+        if (`${window.origin}/course-update`){
+            const value = `${document.cookie}`;
+            const std = `${document.cookie.search("std_token")}`;
+            if (value == "" || std == 0) {
+                alert("Your session has running out time");
+                window.location = `${window.origin}/index`;
+            }
+        }
+
     function editing() {
         let cid = window.location.search;
         let courseId = new URLSearchParams(cid); 
         let course_id = courseId.get("id");
         let names = courseId.get("title");
         let title = document.getElementById("editTitle");
-        title.innerHTML = "Edit Course: " + names
+        if (cid == "") {
+            title.innerHTML = "New Course:"
+        } else {
+            title.innerHTML = "Edit Course: " + names
+        }
         let section = document.getElementById("editCourse");
         let btnctrl = document.getElementById("btn-ctrl");
         btnctrl.innerHTML = "";
@@ -74,126 +88,5 @@
         }
     }
     </script>
-
-
-        <!-- <script>
-            window.onload = function(){
-                let createCourse = document.getElementById("create");
-                createCourse.onclick = create;
-            }
-            function create(){
-                
-                let description = document.getElementById("description").value;
-                let prerequisite_id = document.getElementById("prerequisite").value;
-                // let prerequisite_id = [prerequisite];
-                let title = document.getElementById("title").value;
-                let instructor = document.getElementById("instructorId").value;
-
-                const newCourse = {
-                    description,
-                    prerequisite_id,
-                    title,
-                    instructor
-                }
-                
-                const url = "http://127.0.0.1:5000/elearning/courses/new"
-                fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type" : "application/json",
-                        "Accept" : "application/json"
-                    },
-                    body: JSON.stringify(newCourse)
-                })
-                .then(response => response.json())
-                .then(json => {
-                    console.log(json);
-                    alert("Thank You, The Course has been added");
-                })
-                .catch((error) => console.error("Error", error))
-            }
-        </script>
-
-        <script>
-            window.onload = function() {
-                let update = document.getElementById("update");
-                update.onclick = updating;
-            }
-
-            function updating() {
-
-                let course_id = document.getElementById("courseId").value;
-                let description = document.getElementById("description").value;
-                let prerequisite_id = document.getElementById("prerequisite").value;
-                // let prerequisite_id = [prerequisite];
-                let title = document.getElementById("title").value;
-                let instructor = document.getElementById("instructorId").value;
-
-                const updateCourse = {
-                    course_id,
-                    description,
-                    prerequisite_id,
-                    title,
-                    instructor
-                };
-
-                console.log(updateCourse);
-
-                const url1 = "http://127.0.0.1:5000/elearning/courses/edit?course_id=" + course_id
-                fetch(url1, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type" : "application/json",
-                        "Accept" : "application/json" 
-                    },
-                    body: JSON.stringify(updateCourse)
-                })
-                .then(response => response.json())
-                .then(json => {
-                    console.log(json);
-                    alert("Thank You, The Course has been updated");
-                    window.location.href = "/admin-portal";
-                })
-                .catch((error) => console.error('Error:', error))
-            }
-        </script>
-
-        <script>
-            let form = document.getElementById("editingStudent");
-
-            form.addEventListener("submit", function(e) {
-            e.preventDefault();
-            
-            let student_id = document.getElementById("studentId").value;
-            let firstname = document.getElementById("firstname").value;
-            let lastname = document.getElementById("lastname").value;
-            let username = document.getElementById("username").value;
-            let email = document.getElementById("email").value;
-
-            const info = {
-                student_id,
-                firstname,
-                lastname,
-                username,
-                email
-            };
-
-            fetch ('http://127.0.0.1:5000/elearning/user/edit/student?student_id=' + student_id, {
-            method: "PUT",
-            headers: {
-                "Content-Type" : "application/json",
-                "Accept" : "application/json"
-            },
-            body: JSON.stringify(info)
-            })
-            .then(response => response.json())
-            .then(response => {
-                console.log(response);
-                alert("Thank You, Student Information has been updated")
-            })
-            .catch((error) => console.error('Error:', error))
-            });
-        </script> -->
-
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" media="all" href="{{ url_for('static', filename='css/app.css')}}">
-    <title>Sign In</title>
+    <title>e-Learning</title>
 </head>
 
 <body>
@@ -13,37 +13,34 @@
         <hr>
     </header>
     
-    <div id = "type">
-        <p>Who are you?</p>
-        <input type="radio" class="student" value="student" name="identification">
-        <label>Student</label>
-        <input type="radio" class="instructor" value="instructor" name="identification" checked>
-        <label>Instructor</label>
-    </div>
-
-    <br>
-    
     <section id="data">
-        <form action="/student-index", method="POST", id="fsignInStudent">
-            <table>
-                <tr>
-                    <td>Username : </td>
-                    <td><input type="text" id="username" placeholder="Username" required></td>
-                </tr>
-                <tr>
-                    <td>Password : </td>
-                    <td><input type="password" id="password" placeholder="6 Digits" required></td>
-                </tr>
-            </table>
 
-            <button type="submit" id="back" onclick="goBack()">Back</button>
+        <div id = "type">
+            <p>Who are you?</p>
+            <input type="radio" class="student" value="student" name="identification">
+            <label>Student</label>
+            <input type="radio" class="instructor" value="instructor" name="identification" checked>
+            <label>Instructor</label>
+        </div>
+
+        <form action="/student-index", method="POST", id="fsignInStudent">
+
+            <label for="username"><b>Username</b></label>
+            <input type="text" id="username" placeholder="Username" required>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" id="password" placeholder="6 Digits Numeric" required>
+
             <button type="submit" id="signInStudent">Sign In</button>
+            <button type="submit" id="back" onclick="goBack()">Back</button>
+            
 
         </form>
     </section>
 
+
     <div id = "cancel">
-        <a href = "/register-student"> <br> Don't have an account yet?</a>
+        <p>Don't have an account yet? <a href="/register-student">Register</a>.</p>
     </div>
 
     <script>
@@ -69,10 +66,7 @@
 
         let user_name = document.getElementById("username").value;
         let password = document.getElementById("password").value;
-        const information = {
-                user_name,
-                password
-            }
+        const information = {user_name, password}
 
         if (signIn() == "student") {
             const url1 = "http://127.0.0.1:5000/elearning/user/login/student"

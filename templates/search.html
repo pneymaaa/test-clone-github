@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="all" href="{{ url_for('static', filename='css/app.css')}}">
+    <title>e-Learning</title>
+
+</head>
+<body onload="searches(), navigate()">
+
+    <header>
+        <h1><b>e-Learning</b></h1>
+    </header>
+
+    <nav id="nav">
+    
+    </nav>
+
+    <!-- <div class ="navbar"> -->
+        <!-- <a id="acourse" onclick="validate()">Home</a>
+        <a href ="#" id="atopcourse" onclick="topCourse()">Top Courses</a>
+        <a href ="#" id="atopstudent" onclick="topStudent()">Top Students</a>
+        <a href ="/sign-in">Sign In</a>
+        <div class = "dropdown">
+            <button class = "dropbtn">Register</button>
+            <div class = "dropdown-content">
+                <a href="/register-student">Student</a>
+                <a href="/register-instructor">Instructor</a>
+            </div>
+        </div>
+        <div class = "searching">
+            <label for="course">Search :</label>
+            <input type="search" id="course" name="course" placeholder="Search...">
+            <button onclick="doSearch()">Go</button>
+        </div> -->
+    <!-- </div> -->
+
+    <br>
+
+    <h2 id="hC2"></h2>
+
+    <section id="sCourses"></section>
+
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+        
+    <div class="footer">
+        <p>e-Learning | 2021</p>
+    </div>
+
+    <script>
+        function goBack(){
+            window.location = `${window.origin}/index`;
+        }
+    </script>
+
+    <!-- <script>
+
+    function validate() {
+        let inst_token = getCookied("inst_token");
+        let std_token = getCookied("std_token");
+        if (inst_token != ""){
+            window.location = `${window.origin}/instructor-index`;
+        }
+        else if (std_token != "") {
+            window.location = `${window.origin}/student-index`;
+        } 
+        else {
+            window.location = `${window.origin}/index`;
+        }
+    }
+</script> -->
+
+<!-- <script>
+    function navigate() {
+        if (getCookied("std_token") != "" || getCookied("inst_token") != "") {
+        let navbar = document.createElement("div");
+        navbar.classList.add("navbar");
+        navbar.innerHTML +=`<a id="acourse" onclick="validate()">Home</a>
+                            <div class = "searching">
+                                <input type="search" id="course" name="course" placeholder="Search...">
+                                <button onclick="doSearch()">Go</button>
+                            </div>`
+        let nav = document.getElementById("nav");
+        nav.append(navbar)
+    } else {
+        let navbar = document.createElement("div");
+        navbar.classList.add("navbar");
+        navbar.innerHTML +=`<a id="acourse" onclick="validate()">Home</a>
+                            <a href ="/sign-in">Sign In</a>
+                            <div class = "dropdown">
+                                <button class = "dropbtn">Register</button>
+                                <div class = "dropdown-content">
+                                    <a href="/register-student">Student</a>
+                                    <a href="/register-instructor">Instructor</a>
+                                </div>
+                            </div>
+                            <div class = "searching">
+                                <input type="search" id="course" name="course" placeholder="Search...">
+                                <button onclick="doSearch()">Go</button>
+                            </div>`
+        let nav = document.getElementById("nav");
+        nav.append(navbar)
+    }
+}
+</script> -->
+
+
+</body>
+</html>

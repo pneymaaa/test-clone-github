@@ -6,6 +6,10 @@ app = Flask(__name__, static_url_path='/static')
 def index():
     return render_template("index.html")
 
+@app.route("/index/search")
+def search():
+    return render_template("search.html")
+
 # Register Student #
 @app.route("/register-student")
 def register_student():

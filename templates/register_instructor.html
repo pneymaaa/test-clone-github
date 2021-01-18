@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}">
-    <title>Register</title>
+    <title>e-Learning</title>
 </head>
 <body>
     <header id="register">
@@ -14,40 +14,33 @@
 
     <section id = "identification">
         <form action="/instructor-index", method="POST", id="registerInstructor">
-            <table>
-                <tr>
-                    <td>First Name : </td>
-                    <td><input type="text" id="firstname" placeholder="First Name" required></td>
-                </tr>
-                <tr>
-                    <td>Last Name : </td>
-                    <td><input type="text" id="lastname" placeholder="Last Name" required></td>
-                </tr>
-                <tr>
-                    <td>Username : </td>
-                    <td><input type="text" id="username" placeholder="Username" required></td>
-                </tr>
-                <tr>
-                    <td>Email : </td>
-                    <td><input type="email" id="email" placeholder="Email" required></td>
-                </tr>
-                <tr>
-                    <td>Password : </td>
-                    <td><input type="password" id="password" placeholder="6 Digits Numeric" required></td>
-                </tr>
-            </table>
-        
-        <button type="submit" id="back" onclick="goBack()">Back</button>
-        <button type="submit" id="create">Create</button>
+            
+            <label for="firstname"><b>First Name</b></label>
+            <input type="text" id="firstname" placeholder="First Name" required>
+
+            <label for="lastname"><b>Last Name</b></label>
+            <input type="text" id="lastname" placeholder="Last Name" required>
+
+            <label for="username"><b>Username</b></label>
+            <input type="text" id="username" placeholder="Username" required>
+
+            <label for="email"><b>Email</b></label>
+            <input type="email" id="email" placeholder="Email" required>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" id="password" placeholder="6 Digits Numeric" required>
+
+            <button type="submit" id="create">Create</button>
+            <button type="submit" id="back" onclick="goBack()">Back</button>
 
         </form>
     
     </section>
 
         
-        <div id = "cancel">
-            <a href = "/sign-in"> <br> Do you have already an account?</a>
-        </div>
+    <div id = "cancel">
+        <p>Do you have already an account? <a href="/sign-in">Sign in</a>.</p>
+    </div>
     
     <script>
         function goBack(){
@@ -65,15 +58,9 @@
         let lastname = document.getElementById("lastname").value;
         let username = document.getElementById("username").value;
         let email = document.getElementById("email").value;
-        let password = document.getElementById("password").value;
+        let password = parseInt(document.getElementById("password").value);
 
-        const info = {
-            firstname,
-            lastname,
-            username,
-            email,
-            password
-        };
+        const info = {firstname, lastname, username, email, password};
 
         fetch ('http://127.0.0.1:5000/elearning/user/register/instructor', {
         method: "POST",
@@ -97,8 +84,6 @@
     })
 
     </script>
-
-
 
 </body>
 </html>

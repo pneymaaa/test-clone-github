@@ -9,12 +9,11 @@
 <body onload="instructorCourses()">
     <header>
         <h1><b>Courses</b></h1>
-        <h2 id="welcome"></h2>
     </header>
 
     <div class ="navbar">
-        <a id="acourse" onclick="validate()">List</a>
-        <a href ="/course-setting">Instructor's Course</a>
+        <a id="acourse" onclick="validates()">List</a>
+        <a href ="/course-setting">Instructor's Courses</a>
         <a href ="/course-update">Create New</a>
     </div>
 
@@ -31,20 +30,18 @@
     </div>
 
     <script>
-        function getCookied(name) {
+        if (`${window.origin}/course-setting`){
             const value = `${document.cookie}`;
-            const parts = value.split(`${name}=`);
-            if (parts.length === 2){
-                return parts.pop().split(';').shift();
-            } else if (value == "") {
-                window.location = `${window.origin}/index`
-                return window.location
+            const std = `${document.cookie.search("std_token")}`
+            if (value == "" || std == 0) {
+                alert("Your session has running out time");
+                window.location = `${window.origin}/index`;
             }
         }
 
-        function validate() {
-            let inst_token = getCookied("inst_token");
-            if (inst_token !== ""){
+        function validates() {
+            let inst_token = `${document.cookie.search("inst_token")}`
+            if (inst_token == 0){
                 window.location = `${window.origin}/instructor-index`;
             }
             else {
